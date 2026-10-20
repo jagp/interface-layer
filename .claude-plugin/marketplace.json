@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "interface-layer",
+  "description": "InterfaceLayer: Jared Parmenter's Claude Code plugins, each pinned to a release commit in its own repo.",
+  "owner": {
+    "name": "Jared Parmenter",
+    "email": "jared.parmenter@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "truename",
+      "description": "Finds the right name for an artificial entity (company, repo, plugin, variable, skill trigger) by deliberately indirect, multi-lens generation, then scores and availability-checks the finalists.",
+      "version": "0.0.2",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jagp/truename.git",
+        "ref": "v0.0.2",
+        "sha": "39145284026e52508226a5e9f4c57f9637f4b7a6"
+      },
+      "homepage": "https://github.com/jagp/truename"
+    }
+  ]
+}
