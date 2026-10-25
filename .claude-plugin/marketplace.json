@@ -8,6 +8,18 @@
   },
   "plugins": [
     {
+      "name": "omnilog",
+      "description": "Append-only action log for Claude Code: hooks write one ASCII line to omnilog.md per tool call, per response (with real token cost), and per subagent finish.",
+      "version": "1.0.0",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jagp/omnilog.git",
+        "ref": "v1.0.0",
+        "sha": "ed37c70cf0330a78727de9abf351471d23699777"
+      },
+      "homepage": "https://github.com/jagp/omnilog"
+    },
+    {
       "name": "truename",
       "description": "Finds the right name for an artificial entity (company, repo, plugin, variable, skill trigger) by deliberately indirect, multi-lens generation, then scores and availability-checks the finalists.",
       "version": "0.0.2",
