@@ -11,7 +11,7 @@ The marketplace for my Claude Code plugins.
 
 | Plugin | Version | Repo |
 |---|---|---|
-| omnilog | 1.0.1 | [jagp/omnilog](https://github.com/jagp/omnilog) |
+| omnilog | 1.1.0 | [jagp/omnilog](https://github.com/jagp/omnilog) |
 | truename | 0.0.2 | [jagp/truename](https://github.com/jagp/truename) |
 
 ## How the catalog works
