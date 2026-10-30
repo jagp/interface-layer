@@ -9,13 +9,13 @@
   "plugins": [
     {
       "name": "omnilog",
-      "description": "Append-only action log for Claude Code: hooks write one ASCII line to omnilog.md per tool call, per response (with real token cost), and per subagent finish.",
-      "version": "1.0.1",
+      "description": "Append-only action log for Claude Code: hooks write one ASCII line to .claude/.omnilog/.omnilog.md per tool call, per response (with real token cost), and per subagent finish.",
+      "version": "1.1.0",
       "source": {
         "source": "url",
         "url": "https://github.com/jagp/omnilog.git",
-        "ref": "v1.0.1",
-        "sha": "3b249a98e1014e4dae134af602f57dd8c197d020"
+        "ref": "v1.1.0",
+        "sha": "9a1e718c589ef9ebce8a5ccf1cc04b3e9e2067bb"
       },
       "homepage": "https://github.com/jagp/omnilog"
     },
