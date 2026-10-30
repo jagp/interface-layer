@@ -10,12 +10,12 @@
     {
       "name": "omnilog",
       "description": "Append-only action log for Claude Code: hooks write one ASCII line to omnilog.md per tool call, per response (with real token cost), and per subagent finish.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "source": {
         "source": "url",
         "url": "https://github.com/jagp/omnilog.git",
-        "ref": "v1.0.0",
-        "sha": "ed37c70cf0330a78727de9abf351471d23699777"
+        "ref": "v1.0.1",
+        "sha": "3b249a98e1014e4dae134af602f57dd8c197d020"
       },
       "homepage": "https://github.com/jagp/omnilog"
     },
