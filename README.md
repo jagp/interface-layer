@@ -29,4 +29,14 @@ the entry here is updated. Publishing a release takes two steps:
    `main`, tagged `vX.Y.Z`).
 2. In this repo, update that plugin's `version`, `ref` and `sha`, then merge to `main`.
 
+Step 2 is automated. `.github/workflows/bump-pins.yml` runs daily, and on demand from
+the Actions tab. It opens one PR against `main` per plugin with a newer release, and
+you review and merge it. It only proposes a bump when the tag is a strict `vX.Y.Z`, the
+tagged commit is on the plugin's `main`, and that commit's `plugin.json` has the same
+version. Anything else is reported in the run log and left alone. To check by hand:
+
+```text
+python .github/scripts/bump_pins.py --dry-run
+```
+
 Plugins whose own repo has no release yet aren't listed.

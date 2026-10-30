@@ -1,0 +1,41 @@
+# Opens one PR per plugin whose own repo has a newer vX.Y.Z release than the catalog
+# pins. All the logic lives in .github/scripts/bump_pins.py; this file only schedules it.
+# Plugin repos are public, so the built-in GITHUB_TOKEN is enough - no secrets.
+# Needs repo setting: Actions > General > "Allow GitHub Actions to create and approve
+# pull requests". The schedule only runs from the default branch (main).
+name: bump-pins
+
+on:
+  schedule:
+    - cron: "17 9 * * *" # daily, 09:17 UTC
+  workflow_dispatch:
+    inputs:
+      plugin:
+        description: Only check this plugin (blank = all)
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: bump-pins
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Open bump PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PLUGIN: ${{ inputs.plugin }}
+        run: python3 .github/scripts/bump_pins.py --open-prs --plugin "$PLUGIN"
