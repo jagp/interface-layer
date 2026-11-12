@@ -3,6 +3,7 @@
   ROOT, MANIFEST      this repo and its marketplace.json
   run(*args)          the ONE way these scripts run a command (git, gh, bash).
                       Tests replace it with a fake, so nothing real happens.
+  run_status(*args)   the same, for commands whose exit code is the answer
   load_catalog()      the plugin entries of marketplace.json
   github_repo(source) where a GitHub-hosted plugin lives: (owner/repo, subfolder)
   report(line)        print one result line, and add it to the GitHub Actions
@@ -22,6 +23,16 @@ def run(*args, capture=True, check=True, cwd=ROOT, env=None):
     """Run a command in <cwd>; return its stdout as text (empty if not captured)."""
     result = subprocess.run(args, cwd=cwd, text=True, capture_output=capture, check=check, env=env)
     return result.stdout if capture else ""
+
+
+def run_status(*args, cwd=ROOT, env=None):
+    """Run a command that may fail on purpose; return (exit code, stdout+stderr).
+
+    For scripts whose exit code is the answer (finish-release.sh exits 2 on a
+    refusal, 3 on a conflict), where run()'s raise-on-failure would hide it.
+    """
+    result = subprocess.run(args, cwd=cwd, text=True, capture_output=True, env=env)
+    return result.returncode, result.stdout + result.stderr
 
 
 def load_catalog():
