@@ -1,0 +1,75 @@
+# Moves the catalog's plugin releases down their pipeline, with no human:
+#   1. pipeline.py   - in each listed plugin repo: merge release/hotfix -> main
+#                      and back-merge PRs once their checks pass, then finish
+#                      any landed release (tag, merge back, publish) with the
+#                      gitflow plugin's own scripts. Needs the PIPELINE_TOKEN
+#                      secret (see README); skipped without it.
+#   2. bump_pins.py  - move each pin to its plugin's newest verified release,
+#                      merging the bump PR straight away.
+# Step 1 runs first, so a release finished in this run is pinned in this run.
+# Needs repo setting: Actions > General > "Allow GitHub Actions to create and
+# approve pull requests". The schedule only runs from the default branch (main).
+name: pipeline
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      plugin:
+        description: Only this plugin (blank = all)
+        required: false
+        default: ""
+      dry_run:
+        description: Report what would happen, change nothing
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # The gitflow scripts run at the version this catalog pins, so the code
+      # doing the work is a released one, upgraded by an ordinary pin bump.
+      - name: Read the pinned gitflow plugin
+        id: gitflow
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          entry = next(p for p in json.load(open(".claude-plugin/marketplace.json"))["plugins"]
+                       if p["name"] == "cc-gitflow-regulator")
+          print(f"sha={entry['source']['sha']}")
+          PY
+      - uses: actions/checkout@v4
+        with:
+          repository: jagp/cc-gitflow-regulator
+          ref: ${{ steps.gitflow.outputs.sha }}
+          path: gitflow
+      - name: Move plugin releases along
+        env:
+          GH_TOKEN: ${{ secrets.PIPELINE_TOKEN }}
+          PLUGIN: ${{ inputs.plugin }}
+          DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: python3 .github/scripts/pipeline.py --gitflow-dir "$PWD/gitflow" --plugin "$PLUGIN" $DRY_RUN
+      - name: Bump catalog pins
+        if: always() # a stuck release in one plugin never blocks pinning the others
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PLUGIN: ${{ inputs.plugin }}
+          MODE: ${{ inputs.dry_run && '--dry-run' || '--open-prs --merge' }}
+        run: python3 .github/scripts/bump_pins.py --plugin "$PLUGIN" $MODE
