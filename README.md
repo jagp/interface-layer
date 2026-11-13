@@ -52,8 +52,10 @@ here, it does four things:
 What stays human: feature PRs (they add content), starting a release
 (`/start-release`, `/finish-release` in the plugin's repo), new listings here,
 and anything the pipeline reports it couldn't do. Each run's summary lists
-every action and refusal. A release the pipeline finished must not also be
-finished by hand. To see what it would do now:
+every action and refusal. **For a listed plugin, don't run `/finish-release` again once its release PR is
+open.** The PR's own description says to, but that text comes from the gitflow
+plugin and predates this pipeline. Finishing by hand as well would build a
+second merge back on a stale `develop`. To see what it would do now:
 
 ```text
 GH_TOKEN=... python .github/scripts/pipeline.py --dry-run
