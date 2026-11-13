@@ -24,6 +24,7 @@ Exit code 1 means at least one plugin was refused; the others still proceed.
 import argparse
 import json
 import re
+import subprocess
 import sys
 
 import catalog                  # shared: catalog.run() (faked in tests), github_repo(), MANIFEST
@@ -157,16 +158,22 @@ def main():
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     bumps, refusals = find_bumps(manifest, args.plugin or None)
+    # catalog.report: each line also lands in the GitHub Actions run summary.
     for name, repo, tag, sha, version in bumps:
-        print(f"bump  {name}: -> {version} ({repo}@{tag}, {sha})")
+        catalog.report(f"bump  {name}: -> {version} ({repo}@{tag}, {sha})")
     for reason in refusals:
-        print(f"REFUSED  {reason}")
+        catalog.report(f"REFUSED  {reason}")
     if not bumps and not refusals:
-        print("all pins current")
+        catalog.report("all pins current")
+    failed = False
     if args.open_prs:
         for bump in bumps:
-            open_pr(bump, merge=args.merge)
-    return 1 if refusals else 0
+            try:                                   # one stuck bump never blocks the others
+                open_pr(bump, merge=args.merge)
+            except subprocess.CalledProcessError as error:
+                catalog.report(f"{bump[0]}: bump PR failed — {(error.stderr or str(error)).strip()[-300:]}")
+                failed = True
+    return 1 if refusals or failed else 0
 
 
 if __name__ == "__main__":
