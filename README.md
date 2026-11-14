@@ -11,7 +11,7 @@ The marketplace for my Claude Code plugins.
 
 | Plugin | Version | Repo |
 |---|---|---|
-| cc-gitflow-regulator | 1.0.1 | [jagp/cc-gitflow-regulator](https://github.com/jagp/cc-gitflow-regulator) |
+| cc-gitflow-regulator | 1.1.0 | [jagp/cc-gitflow-regulator](https://github.com/jagp/cc-gitflow-regulator) |
 | omnilog | 1.1.0 | [jagp/omnilog](https://github.com/jagp/omnilog) |
 | truename | 0.0.2 | [jagp/truename](https://github.com/jagp/truename) |
 
