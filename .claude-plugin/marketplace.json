@@ -23,6 +23,19 @@
       "homepage": "https://github.com/jagp/cc-gitflow-regulator"
     },
     {
+      "name": "claude-tui-dashboard",
+      "description": "Two-line Claude Code statusline: medal model glyphs, effort dial, rate-limit windows, exact token count, and clickable emoji links, with a Windows claudectl:// protocol so links open Explorer even from VS Code terminal.",
+      "version": "1.1.0",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jagp/claude-tui-dashboard.git",
+        "path": "plugins/claude-tui-dashboard",
+        "ref": "v1.1.0",
+        "sha": "57091186eeb3a4f7fb5d0029d3dddf414f77d511"
+      },
+      "homepage": "https://github.com/jagp/claude-tui-dashboard"
+    },
+    {
       "name": "omnilog",
       "description": "Append-only action log for Claude Code: hooks write one ASCII line to .claude/.omnilog/.omnilog.md per tool call, per response (with real token cost), and per subagent finish.",
       "version": "1.1.0",
