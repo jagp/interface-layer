@@ -13,12 +13,12 @@
     {
       "name": "cc-gitflow-regulator",
       "description": "Gitflow for Claude Code: worktree branches named feature/* and forked from develop, plus /start- and /finish- commands for features, releases and hotfixes (version suggestion, changelog, merge by PR or push, tag, GitHub Release).",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "source": {
         "source": "url",
         "url": "https://github.com/jagp/cc-gitflow-regulator.git",
-        "ref": "v1.2.0",
-        "sha": "881ec6ae5d2459438a8d73576a274df7eae4b930"
+        "ref": "v1.3.0",
+        "sha": "9b40e65410702eabada8eb68bae9d928a6f4d32e"
       },
       "homepage": "https://github.com/jagp/cc-gitflow-regulator"
     },
